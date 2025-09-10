@@ -7,8 +7,8 @@
 \begin{document}
 
 \author[1, 2]{Davidson Lova Razafindrakoto}
-\author[1]{Alain Celisse}
-\author[2]{Jérôme Lacaille}
+% \author[1]{Alain Celisse}
+% \author[2]{Jérôme Lacaille}
 \affil[1]{Laboratoire SAMM, Université Paris 1 Panthéon-Sorbonne, Paris, France.
 }
 \affil[2]{Safran Aircraft Engines, Paris, France.
@@ -24,70 +24,66 @@
 \maketitle
 
 %%%%%
-\begin{abstract}
-    instant-by-instant and simultaneous confidence prediction bands.
-\end{abstract}
+% \begin{abstract}
+%     instant-by-instant and simultaneous confidence prediction bands.
+% \end{abstract}
 
-Keywords: Conformal prediction, nested prediction sets, point-wise confidence bands.
+% Keywords: Conformal prediction, nested prediction sets, point-wise confidence bands.
 
-\section{Introduction}
-\label{sec.intro}
+% \section{Introduction}
+% \label{sec.intro}
 
-[Here we are going to insert the reason why we do all of these]
+% [Here we are going to insert the reason why we do all of these]
 
-\citet{izbicki2019flexible} proposed two methods for building prediction bands:
-CDist-split and CD-split based on split conformal prediction \citep{vovk2005algorithmic}.
-% CDist-split uses a transformation of an estimate of conditional cumulative density function as a conformity measure,
-% whereas CD-split uses an estimate of the conditional probability density function as a conformity measure.
-The prediction sets forming CDist-split bands are intervals whereas
-those forming CD-split ones are (estimated) density level sets which can take any form depending the shape of the conditional probability density function estimate
-(for instance a union of two intervals if the density is bimodal).
+% \citet{izbicki2019flexible} proposed two methods for building prediction bands:
+% CDist-split and CD-split based on split conformal prediction \citep{vovk2005algorithmic}.
+% % CDist-split uses a transformation of an estimate of conditional cumulative density function as a conformity measure,
+% % whereas CD-split uses an estimate of the conditional probability density function as a conformity measure.
+% The prediction sets forming CDist-split bands are intervals whereas
+% those forming CD-split ones are (estimated) density level sets which can take any form depending the shape of the conditional probability density function estimate
+% (for instance a union of two intervals if the density is bimodal).
 
-\citet{izbicki2022cd} proposed yet another method for building prediction bands : HPD-split.
-% HPD-split uses an (estimated) probability measure of an (estimated) conditional density level set
-% where the level is an estimate of conditional probability density.
-The prediction sets forming HPD-split bands are also (estimated) density level sets.
-What differs from CD-split is that the chosen level varies with the input value, whereas for CD-split, the level is the same for every input value.
-% These three prediction bands (CDist-split, CD-split, HPD-split) mentioned here are indexed by the input value, and
-% they ensure control of the coverage at each input value individually.
-In our context, our instant-by-instant prediction bands are index by the instant.
-Since for each instant, the probability distribution is supported on a discrete finite set,
-full conformal (no splitting) versions of CDist-split and CD-split are proposed.
-
-
-\citet{diquigiovanni2021importance} proposed a method for building prediction bands for functional data
-based on split conformal prediction \citep{vovk2005algorithmic}.
-% They chose the supremum of the residuals (and other refinements) across all instants as non-conformity score.
-This prediction band ensure control of coverage of the (random) function at every instant simultaneously.
-In contrast to their functions which are indexed by a continuous interval of instants,
-our curves are indexed by a finite discrete set of instants.
-\todo{Davidson: This is a little weak}
-In contrast to their bands, our $\gamma$-simultaneous bounds
-ensure control of coverage of the (random) curve only for a specified (supposed to be large) proportion of instants.
+% \citet{izbicki2022cd} proposed yet another method for building prediction bands : HPD-split.
+% % HPD-split uses an (estimated) probability measure of an (estimated) conditional density level set
+% % where the level is an estimate of conditional probability density.
+% The prediction sets forming HPD-split bands are also (estimated) density level sets.
+% What differs from CD-split is that the chosen level varies with the input value, whereas for CD-split, the level is the same for every input value.
+% % These three prediction bands (CDist-split, CD-split, HPD-split) mentioned here are indexed by the input value, and
+% % they ensure control of the coverage at each input value individually.
+% In our context, our instant-by-instant prediction bands are index by the instant.
+% Since for each instant, the probability distribution is supported on a discrete finite set,
+% full conformal (no splitting) versions of CDist-split and CD-split are proposed.
 
 
-Section \ref{sec.ibib} discusses instant-by-instant prediction bands
-based on full conformal prediction \citep{vovk2005algorithmic} version of CD-split, CDist-split in our context,
-along with one based on split conformal prediction of CDist-split.
-
-Section \ref{sec.simb} discusses $\gamma$-simultaneous prediction bands
-based on the previously mentioned instant-by-instant prediction bands.
-
-\section{Instant-by-Instant prediction band}
-\label{sec.ibib}
-
-
-
-\section{Simultaneous prediction band}
-\label{sec.simb}
+% \citet{diquigiovanni2021importance} proposed a method for building prediction bands for functional data
+% based on split conformal prediction \citep{vovk2005algorithmic}.
+% % They chose the supremum of the residuals (and other refinements) across all instants as non-conformity score.
+% This prediction band ensure control of coverage of the (random) function at every instant simultaneously.
+% In contrast to their functions which are indexed by a continuous interval of instants,
+% our curves are indexed by a finite discrete set of instants.
+% \todo{Davidson: This is a little weak}
+% In contrast to their bands, our $\gamma$-simultaneous bounds
+% ensure control of coverage of the (random) curve only for a specified (supposed to be large) proportion of instants.
 
 
-\printbibliography
-%
-%
-%
+% Section \ref{sec.ibib} discusses instant-by-instant prediction bands
+% based on full conformal prediction \citep{vovk2005algorithmic} version of CD-split, CDist-split in our context,
+% along with one based on split conformal prediction of CDist-split.
 
-\newpage
+% Section \ref{sec.simb} discusses $\gamma$-simultaneous prediction bands
+% based on the previously mentioned instant-by-instant prediction bands.
+
+% \section{Instant-by-Instant prediction band}
+% \label{sec.ibib}
+
+
+
+% \section{Simultaneous prediction band}
+% \label{sec.simb}
+
+
+
+% \newpage
 \section*{Appendix}
 \addcontentsline{toc}{section}{Appendix}
 \renewcommand{\thesubsection}{\Alph{subsection}}
@@ -1605,38 +1601,45 @@ where the level $\hat{t}_{\gamma; \alpha}^{\mathrm{MDist-split}}$ is defined as
 \end{proof}
 
 
-\begin{proposition}[Make it high probability.]
-Let $\xi_1, \ldots, \xi_n$ be $n$ independent copies of $\xi$.
-Let $I_1$ and $I_2$ be two index sets with cardinal $n_1$ and $n_2$ respectively such that
-$I_1 \sqcup I_2 = \brac{1, \ldots, n}$.
+% \begin{proposition}[Make it high probability.]
+% Let $\xi_1, \ldots, \xi_n$ be $n$ independent copies of $\xi$.
+% Let $I_1$ and $I_2$ be two index sets with cardinal $n_1$ and $n_2$ respectively such that
+% $I_1 \sqcup I_2 = \brac{1, \ldots, n}$.
 
-For any risk level $\delta$ and a control level $\delta$,
-\begin{align*}
-    \mathbb{P}
-    \croch{
-        \mathbb{P}
-        \croch{
-            \xi \in \hat{C}_{a_{n_2; \alpha; \delta}} \mid D_2
-        } \geq 1 - \alpha
-    } \geq 1 - \delta,
-\end{align*}
-where the level $a_{n_2; \alpha; \delta}$ is given by
-\begin{align*}
-    a_{n_2; \alpha; \delta}
-\end{align*}
+% For any risk level $\delta$ and a control level $\delta$,
+% \begin{align*}
+%     \mathbb{P}
+%     \croch{
+%         \mathbb{P}
+%         \croch{
+%             \xi \in \hat{C}_{a_{n_2; \alpha; \delta}} \mid D_2
+%         } \geq 1 - \alpha
+%     } \geq 1 - \delta,
+% \end{align*}
+% where the level $a_{n_2; \alpha; \delta}$ is given by
+% \begin{align*}
+%     a_{n_2; \alpha; \delta}
+% \end{align*}
 
-\end{proposition}
-\begin{proof}
-\begin{align*}
-    \mathbb{P}
-    \croch{
-        \mathbb{P}
-        \croch{
-            \mid D_2
-        } \geq 1 - \alpha
-    } \geq 1 - \delta. 
-\end{align*}
-\end{proof}
+% \end{proposition}
+% \begin{proof}
+% \begin{align*}
+%     \mathbb{P}
+%     \croch{
+%         \mathbb{P}
+%         \croch{
+%             \mid D_2
+%         } \geq 1 - \alpha
+%     } \geq 1 - \delta. 
+% \end{align*}
+% \end{proof}
+
+\printbibliography
+%
+%
+%
+
+
 
 \end{document}
 
