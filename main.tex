@@ -1,0 +1,1643 @@
+\documentclass[11pt]{article}
+% Language setting
+% Replace `english' with e.g. `spanish' to change the document language
+
+\usepackage{format}
+\addbibresource{references.bib}
+\begin{document}
+
+\author[1, 2]{Davidson Lova Razafindrakoto}
+\author[1]{Alain Celisse}
+\author[2]{Jérôme Lacaille}
+\affil[1]{Laboratoire SAMM, Université Paris 1 Panthéon-Sorbonne, Paris, France.
+}
+\affil[2]{Safran Aircraft Engines, Paris, France.
+}
+
+\title{
+    Instant-by-instant and simultaneous confidence prediction bands
+}
+
+\date{davidson-lova.razafindrakoto@safrangroup.com}
+
+%%%%%%%%%%
+\maketitle
+
+%%%%%
+\begin{abstract}
+    instant-by-instant and simultaneous confidence prediction bands.
+\end{abstract}
+
+Keywords: Conformal prediction, nested prediction sets, point-wise confidence bands.
+
+\section{Introduction}
+\label{sec.intro}
+
+[Here we are going to insert the reason why we do all of these]
+
+\citet{izbicki2019flexible} proposed two methods for building prediction bands:
+CDist-split and CD-split based on split conformal prediction \citep{vovk2005algorithmic}.
+% CDist-split uses a transformation of an estimate of conditional cumulative density function as a conformity measure,
+% whereas CD-split uses an estimate of the conditional probability density function as a conformity measure.
+The prediction sets forming CDist-split bands are intervals whereas
+those forming CD-split ones are (estimated) density level sets which can take any form depending the shape of the conditional probability density function estimate
+(for instance a union of two intervals if the density is bimodal).
+
+\citet{izbicki2022cd} proposed yet another method for building prediction bands : HPD-split.
+% HPD-split uses an (estimated) probability measure of an (estimated) conditional density level set
+% where the level is an estimate of conditional probability density.
+The prediction sets forming HPD-split bands are also (estimated) density level sets.
+What differs from CD-split is that the chosen level varies with the input value, whereas for CD-split, the level is the same for every input value.
+% These three prediction bands (CDist-split, CD-split, HPD-split) mentioned here are indexed by the input value, and
+% they ensure control of the coverage at each input value individually.
+In our context, our instant-by-instant prediction bands are index by the instant.
+Since for each instant, the probability distribution is supported on a discrete finite set,
+full conformal (no splitting) versions of CDist-split and CD-split are proposed.
+
+
+\citet{diquigiovanni2021importance} proposed a method for building prediction bands for functional data
+based on split conformal prediction \citep{vovk2005algorithmic}.
+% They chose the supremum of the residuals (and other refinements) across all instants as non-conformity score.
+This prediction band ensure control of coverage of the (random) function at every instant simultaneously.
+In contrast to their functions which are indexed by a continuous interval of instants,
+our curves are indexed by a finite discrete set of instants.
+\todo{Davidson: This is a little weak}
+In contrast to their bands, our $\gamma$-simultaneous bounds
+ensure control of coverage of the (random) curve only for a specified (supposed to be large) proportion of instants.
+
+
+Section \ref{sec.ibib} discusses instant-by-instant prediction bands
+based on full conformal prediction \citep{vovk2005algorithmic} version of CD-split, CDist-split in our context,
+along with one based on split conformal prediction of CDist-split.
+
+Section \ref{sec.simb} discusses $\gamma$-simultaneous prediction bands
+based on the previously mentioned instant-by-instant prediction bands.
+
+\section{Instant-by-Instant prediction band}
+\label{sec.ibib}
+
+
+
+\section{Simultaneous prediction band}
+\label{sec.simb}
+
+
+\printbibliography
+%
+%
+%
+
+\newpage
+\section*{Appendix}
+\addcontentsline{toc}{section}{Appendix}
+\renewcommand{\thesubsection}{\Alph{subsection}}
+
+\begin{definition}
+    Let $K$ the size of the fleet and $T$ the size of the time grid be non-zero integers.
+    Let a cumulative event number evolution curve $\xi = \paren{\xi_1, \ldots, \xi_T}$ be a random vector where
+    for every  $\tau \in \brac{1, \ldots, T}$, $\xi_{\tau}$ is a $\brac{1, \ldots, K}$-valued random variable.
+    Let a band $B = (B_{1}, \ldots, B_{T})$ be such that for every $\tau \in \brac{1, \ldots, K}, \hat{B}_{\alpha; \tau} \subseteq \brac{1, \ldots, K}$.
+\end{definition}
+
+\begin{definition}[Instant-by-instant coverage]
+    Let $\alpha \in (0, 1)$.
+    A band $B$ controls the instant-by-instant coverage of the curve $\xi$ at a control level $\alpha$
+    if
+    \begin{align*}
+        \forall \tau \in \brac{1, \ldots, T},
+        \quad
+        \mathbb{P}\croch{\xi_\tau \in \hat{B}_{\alpha; \tau}} \geq 1 - \alpha.
+    \end{align*}
+\end{definition}
+
+
+\begin{definition}[$\gamma$-Simultaneous coverage]
+    Let $\alpha \in (0, 1)$ and $\gamma \in \croch{0, 1}$.
+    A band $B$ controls the $\gamma$-simultaneous coverage of the curve $\xi$ at a control level $\alpha$
+    if
+    \begin{align*}
+        \mathbb{P}\croch{
+            \frac{\mathrm{Card} \paren{
+                \brac{
+                    \tau \in \brac{1, \ldots, T}:
+                    \xi_\tau \in \hat{B}_{\alpha; \tau}
+                }
+            }}{T}
+            \geq 1 - \gamma
+        } \geq 1 - \alpha.
+    \end{align*}
+\end{definition}
+
+
+\begin{proposition}[Instant-by-instant prediction band, MD-full]
+\label{prop.ibib.md.full}
+    Let $\xi_1, \ldots, \xi_n$ be $n$ independent copies of $\xi$.
+    For any control level $\alpha \in \croch{0, 1}$,
+    the band $\hat{B}^{\mathrm{MD-full}}_{\alpha}$ defined as, for every $\tau \in \brac{1, \ldots, T}$
+    \begin{align}
+    \label{eq.ibib.md.full}
+        \hat{B}_{\alpha; \tau}^{\mathrm{MD-full}} := \brac{
+            k \in \brac{1, \ldots, K} :
+            \hat{p}_{\tau}(k) \geq \hat{\ell}_{\alpha; \tau}  - \frac{1}{n}
+        }
+    \end{align}
+    ensures control of the instant-by-instant coverage of $\xi$ at a control level $\alpha$,
+    where the marginal empirical probability density function $\hat{p}_{\tau}$ is defined in Equation (Eq.~\eqref{eq.epmf.full})
+    and the threshold $\hat{\ell}_{\alpha; \tau}$ in Equation (Eq.~\eqref{eq.threshold.md.full}).
+\end{proposition}
+\begin{proof}[Proof of Proposition \ref{prop.ibib.md.full}]
+    Let $\alpha \in \croch{0, 1}$ and $\tau \in \brac{1, \ldots, T}$.
+    Following \citet{lei2013distribution},
+    a full conformal prediction $\hat{C}_{\alpha; \tau}$ region is built form
+    the observations $\xi_{1; \tau}, \ldots, \xi_{n; \tau}$ for $\xi_{\tau}$
+    as follows
+    \begin{align*}
+        \hat{C}_{\alpha; \tau} =
+        \brac{k \in \brac{1, \ldots, K}
+        : \hat{\pi}_{\tau} (k) > \alpha
+    }
+    \end{align*}
+    %
+    %
+    %
+    where for every $k \in \brac{1, \ldots, K}$
+    \begin{align*}
+        \hat{\pi}_{\tau} (k)
+        := \frac{
+            1
+            + \sum_{i = 1}^{n}
+            \mathbbm{1} \brac{
+                \hat{p}_{\tau}^{k}\paren{\xi_{i; \tau}}
+                \leq \hat{p}^{k}_{\tau}(k)
+            }
+        }{n+1}
+    \end{align*}
+    %
+    %
+    %
+    where for every $l \in \brac{1, \ldots, K}$
+    \begin{align*}
+        \hat{p}_{\tau}^{k}(l) = \frac{n}{n+1} \hat{p}_{\tau}(l) + \frac{1}{n+1} \mathbbm{1} \brac{k = l},
+        \end{align*}
+    and the empirical marginal probability density function is given by
+    \begin{align}
+        \label{eq.epmf.full}
+        \hat{p}_{\tau}(l) = \frac{1}{n} \sum_{i=1}^{n} \mathbbm{1} \brac{\xi_{i; \tau} = l}
+    \end{align}
+    %
+    %
+    %
+    Since $\xi_{1; \tau}, \ldots, \xi_{n; \tau}$ are i.i.d. copies of $\xi_{\tau}$,
+    $\hat{C}_{\alpha; \tau}$ is a confidence prediction region \citep{vovk2005algorithmic}
+    \begin{align*}
+        \mathbb{P} \croch{
+            \xi_{\tau} \in \hat{C}_{\alpha; \tau}
+        } \geq 1 - \alpha.
+    \end{align*}
+    %
+    %
+    %
+    Let us now provide an explicit expression of this region.
+    \begin{align*}
+        k \in \hat{C}_{\alpha; \tau}
+        &
+        \Longleftrightarrow \hat{\pi}_{\tau}\paren{k} > \alpha
+        \\
+        &
+        \Longleftrightarrow \frac{
+            1
+            + \sum_{i = 1}^{n}
+            \mathbbm{1} \brac{
+                \hat{p}_{\tau}^{k}\paren{\xi_{i; \tau}}
+                \leq \hat{p}^{k}_{\tau}(k)
+            }
+        }{n+1} > \alpha
+        \\
+        &
+        \Longleftrightarrow 
+        \frac{1}{n}
+        \sum_{i = 1}^{n}
+        \mathbbm{1} \brac{
+            \hat{p}_{\tau}^{k}\paren{\xi_{i; \tau}}
+            > \hat{p}^{k}_{\tau}(k)
+        }
+        < \paren{1 - \alpha} \paren{1 + \frac{1}{n}}.
+    \end{align*}
+    %
+    %
+    %
+    Let us consider the term on the l.h.s.
+    %
+    %
+    %
+    \begin{align*}
+        &
+        \frac{1}{n}
+        \sum_{i = 1}^{n}
+        \mathbbm{1} \brac{
+            \hat{p}_{\tau}^{k}\paren{\xi_{i; \tau}}
+            > \hat{p}^{k}_{\tau}(k)
+        }
+        \\
+        &
+        =
+        \frac{1}{n}
+        \sum_{i = 1}^{n}
+        \sum_{l = 1}^{K}
+        \mathbbm{1} \brac{l = \xi_{i; \tau}}
+        \mathbbm{1} \brac{
+            \hat{p}_{\tau}^{k}\paren{\xi_{i; \tau}}
+            > \hat{p}^{k}_{\tau}(k)
+        }
+        \\
+        &
+        =
+        \sum_{l = 1}^{K}
+        \hat{p}_{\tau}(l)
+        \mathbbm{1} \brac{
+            \hat{p}_{\tau}^{k}(l)
+            > \hat{p}^{k}_{\tau}(k)
+        }
+        \\
+        &
+        =
+        \sum_{l = 1}^{K}
+        \hat{p}_{\tau}(l)
+        \mathbbm{1} \brac{
+            \frac{n}{n+1} \hat{p}_{\tau}(l)
+            + \frac{1}{n+1} \mathbbm{1} \brac{k = l}
+            >
+            \frac{n}{n+1} \hat{p}_{\tau}(k)
+            + \frac{1}{n+1}
+        }
+        \\
+        &
+        =
+        \sum_{l = 1}^{K}
+        \hat{p}_{\tau}(l)
+        \mathbbm{1} \brac{
+            \hat{p}_{\tau}(l)
+            + \frac{1}{n} \mathbbm{1} \brac{k = l}
+            >
+            \hat{p}_{\tau}(k)
+            + \frac{1}{n}
+        }
+        \\
+        &
+        =
+        \hat{p}_{\tau}(k)
+        \mathbbm{1} \brac{
+            \hat{p}_{\tau}(k)
+            + \frac{1}{n}
+            >
+            \hat{p}_{\tau}(k)
+            + \frac{1}{n}
+        }
+        +
+        \sum_{l = 1, l \neq k}^{K}
+        \hat{p}_{\tau}(l)
+        \mathbbm{1} \brac{
+            \hat{p}_{\tau}(l)
+            >
+            \hat{p}_{\tau}(k)
+            + \frac{1}{n}
+        }
+        \\
+        &
+        =
+        \hat{p}_{\tau}(k)
+        \mathbbm{1} \brac{
+            \hat{p}_{\tau}(k)
+            >
+            \hat{p}_{\tau}(k)
+            + \frac{1}{n}
+        }
+        +
+        \sum_{l = 1, l \neq k}^{K}
+        \hat{p}_{\tau}(l)
+        \mathbbm{1} \brac{
+            \hat{p}_{\tau}(l)
+            >
+            \hat{p}_{\tau}(k)
+            + \frac{1}{n}
+        }
+        \\
+        &
+        =
+        \sum_{l = 1}^{K}
+        \hat{p}_{\tau}(l)
+        \mathbbm{1} \brac{
+            \hat{p}_{\tau}(l)
+            >
+            \hat{p}_{\tau}(k)
+            + \frac{1}{n}
+        }.
+    \end{align*}
+    It follows that
+    \begin{align*}
+        k \in \hat{C}_{\alpha; \tau}
+        &
+        \Longleftrightarrow
+        \sum_{l = 1}^{K}
+        \hat{p}_{\tau}(l)
+        \mathbbm{1} \brac{
+            \hat{p}_{\tau}(l)
+            >
+            \hat{p}_{\tau}(k)
+            + \frac{1}{n}
+        } < \paren{1 - \alpha} \paren{1 + \frac{1}{n}}
+        \\
+        &
+        \Longleftrightarrow
+        \hat{p}_{\tau}(k) \geq \hat{\ell}_{\alpha; \tau},
+    \end{align*}
+    where the threshold $\hat{\ell}_{\alpha; \tau}$ is defined as
+    \begin{align}
+        \label{eq.threshold.md.full}
+        \hat{\ell}_{\alpha; \tau}
+        := \inf
+        \brac{t \in [0, 1]: 
+        \sum_{l = 1}^{K}
+        \hat{p}_{\tau}(l)
+        \mathbbm{1} \brac{
+            \hat{p}_{\tau}(l)
+            >
+            t
+        } < \paren{1 - \alpha} \paren{1 + \frac{1}{n}}}.
+    \end{align}
+    %
+    %
+    %
+    \textbf{How to compute $\hat{\ell}_{\alpha; \tau}$}.
+    The function $G : [0, 1] \to [0, 1]$, $t \mapsto \hat{G}_{\tau}(t) := \sum_{l = 1}^{K}
+        \hat{p}_{\tau}(l)
+        \mathbbm{1} \brac{
+            \hat{p}_{\tau}(l)
+            >
+            t
+    }$
+    is decreasing piece-wise constant right-continuous function
+    which changes value at $\hat{p}_{\tau}(1), \ldots, \hat{p}_{\tau}(K)$.
+    Let $x_1 > \ldots > x_{\kappa}$
+    be the distinct values among $\hat{p}_{\tau}(1), \ldots, \hat{p}_{\tau}(K)$
+    sorted from largest to smallest,
+    and for all $j \in \brac{1, \ldots, \kappa}$,
+    $\rho_j := \sum_{l = 1}^{K} \hat{p}_{\tau}(k) \mathbbm{1} \brac{\hat{p}_{\tau}(k) = x_j}$.
+    Consider the cumulative sum of $\rho_1, \ldots, \rho_{\kappa}$, $s_{1}, \ldots s_{\kappa}$.
+    It follows that $G(x_1) = 0$ and for every $j \in \brac{2, \ldots, \kappa}$
+    \begin{align*}
+        G(x_j)
+        &
+        = \sum_{l = 1}^{K}
+            \hat{p}_{\tau}(l)
+            \mathbbm{1} \brac{
+                \hat{p}_{\tau}(l)
+            >
+            x_j
+        }
+        = \sum_{l = 1}^{K}
+            \sum_{i = 1}^{\kappa}
+            \mathbbm{1}
+            \brac{x_i = \hat{p}_{\tau}(l)}
+            \hat{p}_{\tau}(l)
+            \mathbbm{1} \brac{
+                \hat{p}_{\tau}(l)
+            >
+            x_j
+        }
+        \\
+        &
+        =
+        \sum_{i = 1}^{\kappa}
+            \rho_i
+            \mathbbm{1} \brac{
+                x_i > x_j
+        }
+        =
+        \sum_{i = 1}^{j-1}
+        \rho_i = s_{j-1}.
+    \end{align*}
+    It follows that, one only has to check for finite number of values
+    \begin{align*}
+        \hat{\ell}_{\alpha; \tau}
+        &
+        = \inf
+        \brac{
+            t \in \croch{0, 1}
+            : \hat{G}_{\tau}(t) < \paren{1 - \alpha}\paren{1 + \frac{1}{n}} 
+        }
+        \\
+        &
+        =
+        \min
+        \brac{
+            x_i
+            : 
+            i \in \brac{1, \ldots, \kappa},
+            s_{i-1} < \paren{1 - \alpha}\paren{1 + \frac{1}{n}}
+        }.
+    \end{align*}
+\end{proof}
+
+
+\begin{proposition}[Instant-by-instant prediction upper band, MDist-full]
+\label{prop.ibib.mdist.up.full}
+Let $\xi_1, \ldots, \xi_n$ be $n$ independent copies of $\xi$.
+%
+%
+%
+For any control level $\alpha \in \croch{0, 1}$,
+the band $\hat{B}^{\mathrm{MDist-full, up}}_{\alpha}$ defined as,
+for every $\tau \in \brac{1, \ldots, T}$
+\begin{align}
+\label{eq.ibib.mdist.up.full}
+    \hat{B}_{\alpha; \tau}^{\mathrm{MDist-full, up}} := \brac{
+        k \in \brac{1, \ldots, K} :
+        k \leq \hat{Q}_{\tau}^{\mathrm{up}} \paren{\paren{1 - \alpha} \paren{1 + \frac{1}{n}}} + 1
+    }
+\end{align}
+ensures control of the instant-by-instant coverage of $\xi$ at a control level $\alpha$,
+the empirical marginal upper quantile function $\hat{Q}^{\mathrm{up}}_{\tau}$ is defined in Equation (Eq.~\eqref{eq.eqt.up.full}).
+\end{proposition}
+%
+%
+%
+\begin{proof}[Proof of Proposition \ref{prop.ibib.mdist.up.full}]
+Let $\alpha \in \croch{0, 1}$ and $\tau \in \brac{1, \ldots, T}$.
+A full conformal prediction region $\hat{C}_{\alpha; \tau}$ can be defined as
+\begin{align*}
+    \hat{C}_{\alpha; \tau}
+    := \brac{
+        k \in \brac{1, \ldots, K}:
+        \hat{\pi}\paren{k} > \alpha
+    },
+\end{align*}
+where for every $k \in \brac{1, \ldots, K}$
+\begin{align*}
+    \hat{\pi}\paren{k} :=
+    \frac{1 
+        + \sum_{i=1}^{n}
+        \mathbbm{1}
+        \brac{
+            \hat{F}_{\tau}^{k} \paren{\xi_{i; \tau}}
+            \geq \hat{F}_{\tau}^{k} \paren{k}
+        }
+    }{n+1},
+\end{align*}
+and for every $l \in \brac{1, \ldots, K}$
+\begin{align*}
+    \hat{F}_{\tau}^{k} \paren{l}
+    := \frac{n}{n+1} \hat{F}_{\tau}\paren{l}
+    + \frac{1}{n+1} \mathbbm{1} \brac{k \leq l},
+\end{align*}
+where the empirical marginal cumulative density function $\hat{F}_{\tau}$ is defined as
+\begin{align}
+    \label{eq.ecdf.full}
+    \hat{F}_{\tau} \paren{l}
+    := \frac{1}{n} \sum_{i=1}^{n} \mathbbm{1} \brac{\xi_{i; \tau} \leq l}.
+\end{align}
+%
+%
+%
+Since $\xi_{1; \tau}, \ldots, \xi_{n; \tau}$ are i.i.d. copies of $\xi_{\tau}$,
+$\hat{C}_{\alpha; \tau}$ is a confidence prediction region \citep{vovk2005algorithmic}
+\begin{align*}
+    \mathbb{P} \croch{
+        \xi_{\tau} \in \hat{C}_{\alpha; \tau}
+    } \geq 1 - \alpha.
+\end{align*}
+%
+%
+%
+Let us now provide an explicit expression of $\hat{C}_{\alpha; \tau}$.
+\begin{align*}
+    k \in \hat{C}_{\alpha; \tau}
+    &
+    \Longleftrightarrow
+    \hat{\pi}_{\tau}\paren {k} > \alpha
+    \\
+    &\Longleftrightarrow
+    \frac{1 
+        + \sum_{i=1}^{n}
+        \mathbbm{1}
+        \brac{
+            \hat{F}_{\tau}^{k} \paren{\xi_{i; \tau}}
+            \geq \hat{F}_{\tau}^{k} \paren{k}
+        }
+    }{n+1} > \alpha
+    \\
+    &\Longleftrightarrow
+    \frac{1}{n}
+    \sum_{i=1}^{n}
+    \mathbbm{1}
+    \brac{
+        \hat{F}_{\tau}^{k} \paren{\xi_{i; \tau}}
+        < \hat{F}_{\tau}^{k} \paren{k}
+    }
+    <
+    \paren{1 - \alpha} \paren{1 + \frac{1}{n}}.
+    % \alpha \frac{n+1}{n} - \frac{1}{n}
+\end{align*}
+%
+%
+%
+Let us focus on the l.h.s. term. Let us define the function $\hat{G}_{\tau} : \brac{1, \ldots, K} \to \croch{0, 1}$
+such that for every $k$
+\begin{align*}
+    \hat{G}_{\tau}(k)
+    &
+    :=
+    \frac{1}{n}
+    \sum_{i=1}^{n}
+    \mathbbm{1}
+    \brac{
+        \hat{F}_{\tau}^{k} \paren{\xi_{i; \tau}}
+        < \hat{F}_{\tau}^{k} \paren{k}
+    }
+    \\
+    &
+    =
+    \frac{1}{n}
+    \sum_{i=1}^{n}
+    \sum_{l=1}^{K}
+    \mathbbm{1}
+    \brac{l = \xi_{i; \tau}}
+    \mathbbm{1}
+    \brac{
+        \hat{F}_{\tau}^{k} \paren{\xi_{i; \tau}}
+        < \hat{F}_{\tau}^{k} \paren{k}
+    }
+    \\
+    &
+    =
+    \sum_{l=1}^{K}
+    \hat{p}_{\tau}\paren{l}
+    \mathbbm{1}
+    \brac{
+        \hat{F}_{\tau}^{k} \paren{l}
+        < \hat{F}_{\tau}^{k} \paren{k}
+    }
+    \\
+    &
+    =
+    \sum_{l=1}^{K}
+    \hat{p}_{\tau}\paren{l}
+    \mathbbm{1}
+    \brac{
+        \frac{n}{n+1}
+        \hat{F}_{\tau}\paren{l}
+        + \frac{1}{n+1} \mathbbm{1} \brac{k \leq l}
+        <
+        \frac{n}{n+1} 
+        \hat{F}_{\tau}\paren{k}
+        + \frac{1}{n+1}
+    }
+    \\
+    &
+    =
+    \sum_{l=1}^{K}
+    \hat{p}_{\tau}\paren{l}
+    \mathbbm{1}
+    \brac{
+        \hat{F}_{\tau}\paren{l}
+        + \frac{1}{n} \mathbbm{1} \brac{k \leq l}
+        < \hat{F}_{\tau}\paren{k}
+        + \frac{1}{n}
+    }
+    \\
+    &
+    =
+    \sum_{l=1, l < k}^{K}
+    \hat{p}_{\tau}\paren{l}
+    \mathbbm{1}
+    \brac{
+        \hat{F}_{\tau}\paren{l}
+        < \hat{F}_{\tau}\paren{k}
+        + \frac{1}{n}
+    }
+    +
+    \sum_{l=1, l \geq  k}^{K}
+    \hat{p}_{\tau}\paren{l}
+    \mathbbm{1}
+    \brac{
+        \hat{F}_{\tau}\paren{l}
+        < \hat{F}_{\tau}\paren{k}
+    }.
+\end{align*}
+%
+%
+%
+If $1 \leq l < k$ then $\hat{F}_{\tau}\paren{l} \leq \hat{F}_{\tau}\paren{k}<\hat{F}_{\tau}\paren{k} + \frac{1}{n}$,
+and if $K \geq l \geq k$ then $\hat{F}_{\tau}\paren{l} \geq \hat{F}_{\tau}\paren{k}$.
+The above equation can be rewritten as
+\begin{align*}
+    \hat{G}_{\tau}\paren{k} 
+    = \sum_{l=1, l < k}^{K}
+    \hat{p}_{\tau} \paren{l}
+    = \hat{F}_{\tau} \paren{k-1}.
+\end{align*}
+%
+%
+%
+Going back to trying to find an expression for $\hat{C}_{\alpha; \tau}$
+\begin{align*}
+    k \in \hat{C}_{\alpha; \tau}
+    &
+    \Longleftrightarrow
+    \hat{F}_{\tau} \paren{k-1}
+    <
+    \paren{1 - \alpha} \paren{1 + \frac{1}{n}}
+    \\
+    &
+    \Longleftrightarrow
+    k-1
+    \leq
+    \hat{Q}_{\tau} \paren{\paren{1 - \alpha} \paren{1 + \frac{1}{n}}}
+    \\
+    &
+    \Longleftrightarrow
+    k
+    \leq
+    \hat{Q}_{\tau} \paren{\paren{1 - \alpha} \paren{1 + \frac{1}{n}}} + 1,
+\end{align*}
+where the empirical marginal upper quantile function is defined as, for every level $a \in \croch{0, 1}$,
+\begin{align}
+    \label{eq.eqt.up.full}
+    \hat{Q}_{\tau}^{\mathrm{up}} \paren{a}
+    := \max \brac{
+        k \in \brac{1, \ldots, K} :
+        \hat{F}_{\tau} < a.
+    }
+\end{align}
+the empirical marginal cumulative distribution function $\hat{F}_{\tau}$ in Equation (Eq.~\eqref{eq.ecdf.full}).
+\end{proof}
+
+
+\begin{proposition}[Instant-by-instant prediction lower band, MDist-full]
+\label{prop.ibib.mdist.lo.full}
+Let $\xi_1, \ldots, \xi_n$ be $n$ independent copies of $\xi$.
+%
+%
+%
+For any control level $\alpha \in \croch{0, 1}$,
+the band $\hat{B}^{\mathrm{MDist-full, lo}}_{\alpha}$ defined as,
+for every $\tau \in \brac{1, \ldots, T}$
+\begin{align}
+\label{eq.ibib.mdist.lo.full}
+    \hat{B}_{\alpha; \tau}^{\mathrm{MDist-full, lo}} := \brac{
+        k \in \brac{1, \ldots, K} :
+        k \geq \hat{Q}_{\tau}^{\mathrm{lo}} \paren{\alpha \paren{1 + \frac{1}{n}} - \frac{1}{n}}
+    }
+\end{align}
+ensures control of the instant-by-instant coverage of $\xi$ at a control level $\alpha$,
+where the marginal empirical lower quantile function $\hat{Q}_{\tau}^{\mathrm{lo}}$ is defined in Equation (Eq.~\eqref{eq.eqt.lo.full}). 
+\end{proposition}
+%
+%
+%
+\begin{proof}[Proof of Proposition \ref{prop.ibib.mdist.lo.full}]
+Let $\alpha \in \croch{0, 1}$ and $\tau \in \brac{1, \ldots, T}$.
+A full conformal prediction region $\hat{C}_{\alpha; \tau}$ can be defined as
+\begin{align*}
+    \hat{C}_{\alpha; \tau}
+    := \brac{
+        k \in \brac{1, \ldots, K}:
+        \hat{\pi}\paren{k} > \alpha
+    },
+\end{align*}
+where
+\begin{align*}
+    \hat{\pi}\paren{k} :=
+    \frac{1 
+        + \sum_{i=1}^{n}
+        \mathbbm{1}
+        \brac{
+            \hat{F}_{\tau}^{k} \paren{\xi_{i; \tau}}
+            \leq \hat{F}_{\tau}^{k} \paren{k}
+        }
+    }{n+1}.
+\end{align*}
+%
+%
+%
+Since $\xi_{1; \tau}, \ldots, \xi_{n; \tau}$ are i.i.d. copies of $\xi_{\tau}$,
+$\hat{C}_{\alpha; \tau}$ is a confidence prediction region \citep{vovk2005algorithmic}
+\begin{align*}
+    \mathbb{P} \croch{
+        \xi_{\tau} \in \hat{C}_{\alpha; \tau}
+    } \geq 1 - \alpha.
+\end{align*}
+%
+%
+%
+Let us now provide an explicit expression of $\hat{C}_{\alpha; \tau}$.
+\begin{align*}
+    k \in \hat{C}_{\alpha; \tau}
+    &
+    \Longleftrightarrow
+    \hat{\pi}_{\tau}\paren {k} > \alpha
+    \\
+    &\Longleftrightarrow
+    \frac{1 
+        + \sum_{i=1}^{n}
+        \mathbbm{1}
+        \brac{
+            \hat{F}_{\tau}^{k} \paren{\xi_{i; \tau}}
+            \leq \hat{F}_{\tau}^{k} \paren{k}
+        }
+    }{n+1} > \alpha
+    \\
+    &\Longleftrightarrow
+    \frac{1}{n}
+    \sum_{i=1}^{n}
+    \mathbbm{1}
+    \brac{
+        \hat{F}_{\tau}^{k} \paren{\xi_{i; \tau}}
+        \leq \hat{F}_{\tau}^{k} \paren{k}
+    }
+    >
+    \alpha \paren{1 + \frac{1}{n}} - \frac{1}{n}.
+\end{align*}
+%
+%
+%
+Let us focus on the l.h.s. term. Let us define the function $\tilde{G}_{\tau} : \brac{1, \ldots, K} \to \croch{0, 1}$
+such that for every $k$
+\begin{align*}
+    \tilde{G}_{\tau}(k)
+    &
+    :=
+    \frac{1}{n}
+    \sum_{i=1}^{n}
+    \mathbbm{1}
+    \brac{
+        \hat{F}_{\tau}^{k} \paren{\xi_{i; \tau}}
+        \leq \hat{F}_{\tau}^{k} \paren{k}
+    }
+    \\
+    &
+    =
+    \frac{1}{n}
+    \sum_{i=1}^{n}
+    \sum_{l=1}^{K}
+    \mathbbm{1}
+    \brac{l = \xi_{i; \tau}}
+    \mathbbm{1}
+    \brac{
+        \hat{F}_{\tau}^{k} \paren{\xi_{i; \tau}}
+        \leq \hat{F}_{\tau}^{k} \paren{k}
+    }
+    \\
+    &
+    =
+    \sum_{l=1}^{K}
+    \hat{p}_{\tau}\paren{l}
+    \mathbbm{1}
+    \brac{
+        \hat{F}_{\tau}^{k} \paren{l}
+        \leq \hat{F}_{\tau}^{k} \paren{k}
+    }
+    \\
+    &
+    =
+    \sum_{l=1}^{K}
+    \hat{p}_{\tau}\paren{l}
+    \mathbbm{1}
+    \brac{
+        \frac{n}{n+1}
+        \hat{F}_{\tau}\paren{l}
+        + \frac{1}{n+1} \mathbbm{1} \brac{k \leq l}
+        \leq
+        \frac{n}{n+1} 
+        \hat{F}_{\tau}\paren{k}
+        + \frac{1}{n+1}
+    }
+    \\
+    &
+    =
+    \sum_{l=1}^{K}
+    \hat{p}_{\tau}\paren{l}
+    \mathbbm{1}
+    \brac{
+        \hat{F}_{\tau}\paren{l}
+        + \frac{1}{n} \mathbbm{1} \brac{k \leq l}
+        \leq \hat{F}_{\tau}\paren{k}
+        + \frac{1}{n}
+    }
+    \\
+    &
+    =
+    \sum_{l=1, l \leq k}^{K}
+    \hat{p}_{\tau}\paren{l}
+    \mathbbm{1}
+    \brac{
+        \hat{F}_{\tau}\paren{l}
+        \leq \hat{F}_{\tau}\paren{k}
+        + \frac{1}{n}
+    }
+    +
+    \sum_{l=1, l > k}^{K}
+    \hat{p}_{\tau}\paren{l}
+    \mathbbm{1}
+    \brac{
+        \hat{F}_{\tau}\paren{l}
+        \leq \hat{F}_{\tau}\paren{k}
+    }.
+\end{align*}
+If $1 \leq l < k$ then $\hat{F}_{\tau}\paren{l} \leq \hat{F}_{\tau}\paren{k}<\hat{F}_{\tau}\paren{k} + \frac{1}{n}$,
+and if $K \geq l > k$ and $\hat{p}_{\tau} \paren{l} \neq 0$, then
+\begin{align*}
+    \hat{F}_{\tau}\paren{l} = \sum_{\tilde{l}=1}^{l} \hat{p}_{\tau} \paren{\tilde{l}}
+    = \sum_{\tilde{l}=1}^{k} \hat{p}_{\tau} \paren{\tilde{l}}
+    + \sum_{\tilde{l}=k+1}^{l} \hat{p}_{\tau} \paren{\tilde{l}}
+    = \hat{F}_{\tau}\paren{k} + \sum_{\tilde{l}=k+1}^{l} \hat{p}_{\tau} \paren{\tilde{l}}
+    > \hat{F}_{\tau}\paren{k},
+\end{align*}
+since $\sum_{\tilde{l}=k+1}^{l} \hat{p}_{\tau} \paren{\tilde{l}}$ includes $\hat{p}_{\tau} \paren{l} \neq 0$.
+%
+%
+%
+Hence, the function $\tilde{G}_{\tau}$ can be rewritten as
+\begin{align*}
+    \tilde{G}_{\tau} \paren{k} = \sum_{l=1, l \leq k}^{K}
+    \hat{p}_{\tau}\paren{l} = \hat{F}_{\tau} \paren{k}.
+\end{align*}
+%
+%
+%
+Going back to trying to find an expression for $\hat{C}_{\alpha; \tau}$
+\begin{align*}
+    k \in \hat{C}_{\alpha; \tau}
+    &
+    \Longleftrightarrow
+    \hat{F}_{\tau} \paren{k}
+    >
+    \alpha \paren{1 + \frac{1}{n}} - \frac{1}{n}
+    \\
+    &
+    \Longleftrightarrow
+    k
+    \geq
+    \tilde{Q}_{\tau} \paren{ \alpha \paren{1 + \frac{1}{n}} - \frac{1}{n}},
+\end{align*}
+where the empirical marginal lower quantile function is defined as,
+for every level $a\in \paren{0, 1}$
+\begin{align}
+    \label{eq.eqt.lo.full}
+    \tilde{Q}_{\tau}^{\mathrm{lo}} \paren{a}
+    := \min \brac{
+        k \in \brac{1, \ldots, K} :
+        \hat{F}_{\tau} \paren{k} > a
+    },
+\end{align}
+the empirical marginal cumulative distribution function $\hat{F}_{\tau}$ in Equation (Eq.~\eqref{eq.ecdf.full}).
+\end{proof}
+
+\begin{proposition}[Instant-by-instant prediction band, MDist-full]
+\label{prop.ibib.mdist.full}
+Let $\xi_1, \ldots, \xi_n$ be $n$ independent copies of $\xi$.
+%
+%
+%
+For any control level $\alpha \in \croch{0, 1}$,
+and for any $\alpha_{\mathrm{lo}}, \alpha_{\mathrm{up}} \in \croch{0, 1}$ such that $\alpha_{\mathrm{lo}} + \alpha_{\mathrm{up}} = \alpha$,
+the band $\hat{B}^{\mathrm{MDist-full}}_{\alpha}$ defined as,
+for every $\tau \in \brac{1, \ldots, T}$
+\begin{align}
+    \label{eq.ibib.mdist.full}
+    \hat{B}_{\alpha; \tau}^{\mathrm{MDist-full}}
+    :=
+    &
+    \left\{
+    k \in \brac{1, \ldots, K} :
+    \hat{Q}_{\tau}^{\mathrm{lo}} \paren{\alpha_{\mathrm{lo}} \paren{1 + \frac{1}{n}} - \frac{1}{n}}
+    \leq k,
+    \right.
+    \notag
+    \\
+    &
+    \qquad
+    \qquad
+    \qquad
+    \qquad
+    \left.
+    k \leq \hat{Q}_{\tau}^{\mathrm{up}} \paren{\paren{1 - \alpha_{\mathrm{up}}} \paren{1 + \frac{1}{n}}} + 1
+    \right\},
+\end{align}
+ensures control of the instant-by-instant coverage of $\xi$ at a control level $\alpha$.
+\end{proposition}
+\begin{proof}[Proof of Proposition \ref{prop.ibib.mdist.full}]
+Let $\alpha \in \croch{0, 1}$ and $\tau \in \brac{1, \ldots, T}$. It follows from union bound that
+\begin{align*}
+    \mathbb{P}
+    \croch{
+        \xi_{\tau}
+        \in
+        \hat{B}_{\alpha; \tau}^{\mathrm{MDist-full}}
+    }
+    &
+    =
+    \mathbb{P}
+    \croch{
+        \xi_{\tau}
+        \in
+        \hat{B}_{\alpha_{\mathrm{up}}; \tau}^{\mathrm{MDist-full, up}}
+        \cap
+        \hat{B}_{\alpha_{\mathrm{lo}}; \tau}^{\mathrm{MDist-full, lo}}
+    }
+    \\
+    &
+    =
+    1
+    -
+    \mathbb{P}
+    \croch{
+        \xi_{\tau}
+        \in
+        \paren{\hat{B}_{\alpha_{\mathrm{up}}; \tau}^{\mathrm{MDist-full, up}}}^{c}
+        \cup
+        \paren{\hat{B}_{\alpha_{\mathrm{lo}}; \tau}^{\mathrm{MDist-full, lo}}}^{c}
+    }
+    \\
+    &
+    \geq
+    1
+    -
+    \paren{
+        \mathbb{P}
+    \croch{
+        \xi_{\tau}
+        \in
+        \paren{\hat{B}_{\alpha_{\mathrm{up}}; \tau}^{\mathrm{MDist-full, up}}}^{c}
+    }
+    +
+    \mathbb{P}
+    \croch{
+        \xi_{\tau}
+        \in
+        \paren{\hat{B}_{\alpha_{\mathrm{lo}}; \tau}^{\mathrm{MDist-full, lo}}}^{c}
+    }
+    }
+    \\
+    &
+    \geq
+    1
+    -
+    \paren{ \alpha_{\mathrm{up}} + \alpha_{\mathrm{lo}}
+    } = 1 - \alpha.
+\end{align*}
+\end{proof}
+
+
+\begin{proposition}[Instant-by-instant prediction band, MDist-Split]
+\label{prop.ibib.mdist.split}
+Let $\xi_1, \ldots, \xi_n$ be $n$ independent copies of $\xi$.
+Let $I_1$ and $I_2$ be two index sets with cardinal $n_1$ and $n_2$ respectively such that
+$I_1 \sqcup I_2 = \brac{1, \ldots, n}$.
+%
+%
+%
+For any control level $\alpha \in \croch{0, 1}$,
+the band $\hat{B}^{\mathrm{MDist-split}}_{\alpha}$ defined as,
+for every $\tau \in \brac{1, \ldots, T}$
+\begin{align}
+    \label{eq.ibib.mdist.split}
+    \hat{B}_{\alpha; \tau}^{\mathrm{MDist-split}} :=
+    \brac{
+        k \in \brac{1, \ldots, K} :
+        \tilde{Q}_{D_1; \tau}^{\mathrm{lo}} \paren{\hat{t}_{\alpha; \tau}^{\mathrm{MDist-split}}}
+        \leq k \leq \tilde{Q}_{D_1; \tau}^{\mathrm{up}} \paren{1 - \hat{t}_{\alpha; \tau}^{\mathrm{MDist-split}}}
+    },
+\end{align}
+ensures control of the instant-by-instant coverage of $\xi$ at a control level $\alpha$,
+where the threshold $\hat{t}_{\alpha; \tau}^{\mathrm{MDist-split}}$ is defined in Equation (Eq.~\eqref{eq.emp.conf.level})
+and the marginal empirical upper and lower quantile function $\tilde{Q}_{D_1; \tau}^{\mathrm{up}}$
+and $\tilde{Q}_{D_1; \tau}^{\mathrm{lo}}$ are defined in Equations (Eq.~\eqref{eq.eqt.up.split}) and (Eq.~\eqref{eq.eqt.lo.split})
+respectively.
+\end{proposition}
+%
+%
+%
+\begin{proof}[Proof of Proposition \ref{prop.ibib.mdist.split}]
+Let $\tau \in \brac{1, \ldots, T}$.
+Define the empirical marginal cumulative density function $\hat{F}_{D_1; \tau}$ trained on the data set
+$D_{1} := \brac{\xi_{i}, i \in I_1}$ as, for every $k \in \brac{1, \ldots, K}$
+\begin{align}
+\label{eq.ecdf.D1}
+\hat{F}_{D_1; \tau} \paren{k} := \frac{1}{n_1} \sum_{i \in I_1} \mathbbm{1} \brac{\xi_{i; \tau} \leq k}.
+\end{align}
+%
+%
+%
+Upon the dataset $D_{2} := \brac{\xi_{i}, i \in I_2}$,
+one can define split conformal prediction region $\hat{C}_{\alpha; \tau}$ as
+\begin{align*}
+    \hat{C}_{\alpha; \tau}
+    := \brac{
+        k \in \brac{1, \ldots, K}
+        : \hat{\pi}_{D_2, \tau} \paren{k} > \alpha
+    },
+\end{align*}
+where for every $k \in \paren{1, \ldots, K}$
+\begin{align*}
+    \hat{\pi}_{D_2, \tau} \paren{k}
+    := \frac{
+        1 + \sum_{i \in \mathrm{I_2}}
+        \mathbbm{1}
+        \brac{
+            \hat{A}_{D_1; \tau} \paren{\xi_{i; \tau}}
+            \leq
+            \hat{A}_{D_1; \tau} \paren{k}
+        }
+    }{1+ n_2},
+\end{align*}
+where the conformity score $\hat{A}_{D_1; \tau} \paren{k} := \min \paren{\hat{F}_{D_1; \tau} \paren{k}, 1 - \hat{F}_{D_1; \tau} \paren{k}}$.
+%
+%
+%
+Since $\xi_{1; \tau}, \ldots, \xi_{n; \tau}$ are i.i.d. copies of $\xi_{\tau}$,
+it follows that $\hat{C}_{\alpha; \tau}$ is a confidence prediction region
+\begin{align*}
+    \mathbb{P}
+    \paren{
+        \xi_{\tau} \in \hat{C}_{\alpha; \tau}
+    } \geq 1 - \alpha.
+\end{align*}
+%
+%
+%
+Let us now compute an explicit expression for $\hat{C}_{\alpha; \tau}$.
+\begin{align*}
+    &k \in \hat{C}_{\alpha; \tau}
+    \\
+    \Longleftrightarrow
+    &\frac{
+        1 + \sum_{i \in \mathrm{I_2}}
+        \mathbbm{1}
+        \brac{
+            \hat{A}_{D_1; \tau} \paren{\xi_{i; \tau}}
+            \leq
+            \hat{A}_{D_1; \tau} \paren{k}
+        }
+    }{1+ n_2} > \alpha
+    \\
+    \Longleftrightarrow
+    &\frac{
+        1
+    }{n_2}
+    \sum_{i \in \mathrm{I_2}}
+    \mathbbm{1}
+    \brac{
+        \hat{A}_{D_1; \tau} \paren{\xi_{i; \tau}}
+        \leq
+        \hat{A}_{D_1; \tau} \paren{k}
+    } > \alpha \paren{1 + \frac{1}{n_2}} - \frac{1}{n_2}
+    \\
+    \Longleftrightarrow
+    &
+    \hat{A}_{D_1; \tau} \paren{k}
+    \geq \hat{\ell}_{\alpha; \tau},
+\end{align*}
+where the level $\hat{t}_{\alpha; \tau}^{\mathrm{MDist-split}}$ is defined as
+\begin{align}
+\label{eq.emp.conf.level}
+    \hat{t}_{\alpha; \tau}^{\mathrm{MDist-split}}
+    &
+    := \inf
+    \brac{
+        t \in \croch{0, 1} :
+        \frac{
+            1
+        }{n_2}
+        \sum_{i \in \mathrm{I_2}}
+        \mathbbm{1}
+        \brac{
+            \hat{A}_{D_1; \tau} \paren{\xi_{i; \tau}}
+            \leq t
+        } > \alpha \paren{1 + \frac{1}{n_2}} - \frac{1}{n_2}
+    }
+    \notag
+    \\
+    &
+    =
+    \hat{A}_{D_1; \tau} \paren{\xi_{\paren{i_{n_2; \alpha}}, \tau}},
+\end{align}
+where the index  $i_{n_2; \alpha} := \ceil{\alpha \paren{n_2 + 1} - 1}$,
+and $\hat{A}_{D_1; \tau} \paren{\xi_{\paren{1}; \tau}} \leq \ldots \leq \hat{A}_{D_1; \tau} \paren{\xi_{\paren{n_2}; \tau}}$
+are the conformity scores sorted in increasing order.
+%
+%
+%
+Going back to trying to find an expression of the prediction region
+\begin{align*}
+    &k \in \hat{C}_{\alpha; \tau}
+    \\
+    \Longleftrightarrow
+    &
+    \min \paren{
+        \hat{F}_{D_1; \tau} \paren{k},
+        1 - \hat{F}_{D_1; \tau} \paren{k} 
+    }
+    \geq \hat{t}_{\alpha; \tau}^{\mathrm{MDist-split}},
+    \\
+    \Longleftrightarrow
+    &
+    \hat{F}_{D_1; \tau} \paren{k}
+    \geq \hat{t}_{\alpha; \tau}^{\mathrm{MDist-split}},
+    \mbox{ and }
+    1 - \hat{F}_{D_1; \tau} \paren{k} 
+    \geq \hat{t}_{\alpha; \tau}^{\mathrm{MDist-split}},
+    \\
+    \Longleftrightarrow
+    &
+    \hat{t}_{\alpha; \tau}^{\mathrm{MDist-split}}
+    \leq \hat{F}_{D_1; \tau} \paren{k}
+    \leq 1 - \hat{t}_{\alpha; \tau}^{\mathrm{MDist-split}},
+    \\
+    \Longleftrightarrow
+    &
+    \tilde{Q}_{D_1; \tau}^{\mathrm{lo}} \paren{\hat{t}_{\alpha; \tau}^{\mathrm{MDist-split}}}
+    \leq k
+    \leq \tilde{Q}_{D_1; \tau}^{\mathrm{up}} \paren{1 - \hat{t}_{\alpha; \tau}^{\mathrm{MDist-split}}},
+\end{align*}
+where the empirical marginal upper quantile function built from $D_1$ is defined as,
+for every level $a \in \croch{0, 1}$ is defined as 
+\begin{align}
+\label{eq.eqt.up.split}
+    \tilde{Q}_{D_1; \tau}^{\mathrm{up}} \paren{1 - a}
+    := \max \brac{
+        k \in \brac{1, \ldots, K} :
+        \hat{F}_{D_1; \tau} \paren{k} \leq 1 - a
+    },
+\end{align}
+as for the lower one
+\begin{align}
+\label{eq.eqt.lo.split}
+    \tilde{Q}_{D_1; \tau}^{\mathrm{lo}} \paren{a}
+    := \min \brac{
+        k \in \brac{1, \ldots, K} :
+        \hat{F}_{D_1; \tau} \paren{k} \geq a
+    }.
+\end{align}
+\end{proof}
+
+\begin{proposition}[$\gamma$-simultaneous band]
+\label{prop.make.it.sim}
+Let $\xi_1, \ldots, \xi_{n}$ be i.i.d. copies of $\xi$.
+Let $I_1$ and $I_2$ be two index sets with cardinal $n_1$ and $n_2$ respectively
+such that $I_1 \sqcup I_2 = \brac{1, \ldots, n}$.
+%
+%
+%
+Let $\hat{A}_{D_1; \tau} : \brac{1, \ldots, K} \to \mathbb{R}$, $k \mapsto \hat{A}_{D_1; \tau} \paren{k}$
+be a conformity-measure over $\brac{1, \ldots, K}$ built from the dataset $D_1 := \brac{\xi_{i} : i \in I_1}$.
+%
+%
+%
+
+For any slack level $\gamma \in \croch{0, 1}$, 
+control level $\alpha \in \croch{0, 1}$,
+the prediction band $\hat{B}_{\gamma; \alpha}$ defined as for every $\tau \in \brac{1, \ldots, T}$
+\begin{align*}
+    \hat{B}_{\gamma; \alpha; \tau}
+    &
+    := \brac{
+        k \in \brac{1, \ldots, K} : \hat{A}_{D_1; \tau} \paren{k} \geq \hat{t}_{D_1; \gamma} \paren{\xi_{\paren{i_{n_2; \alpha}}}}
+    }
+\end{align*}
+ensures control of the $\gamma$-simultaneous coverage of $\xi$ at a level $\alpha$
+where the cut-off level $\hat{t}_{D_1; \gamma} \paren{\xi_{\paren{i_{n_2; \alpha}}}}$
+is defined in Equation (Eq.~\ref{eq.sim.cutoff}) from the conformity score defined in Equation (Eq.~\ref{eq.sim.conformity.score}).
+\end{proposition}
+%
+%
+%
+\begin{proof}[Proof of Proposition \ref{prop.make.it.sim}]
+Let $\gamma \in \croch{0, 1}$ and $\alpha \in \croch{0, 1}$.
+One can define a conformity measure $\hat{t}_{D_1; \gamma} : \brac{1, \ldots, K}^{T} \to \mathbb{R}$ such that
+for every $\xi \in \brac{1, \ldots, K}^{T}$
+\begin{align}
+\label{eq.sim.conformity.score}    
+    \hat{t}_{D_1; \gamma} \paren{\xi}
+    := \sup
+    \brac{
+        t \in \mathbb{R}
+        :
+        \frac{1}{T}
+        \sum_{\tau = 1}^{T}
+        \mathbbm{1} \brac{
+            \hat{A}_{D_1; \tau} \paren{\xi_{\tau}} \geq t
+        }
+        \geq 1 - \gamma
+    }
+    = \hat{A}_{D_1; \paren{\tau_{\gamma, T}}} \paren{\xi_{\paren{\tau_{\gamma, T}}}},
+\end{align}
+where $\hat{A}_{D_1; \paren{1}} \paren{\xi_{\paren{1}}} \geq \ldots \geq \hat{A}_{D_1; \paren{T}} \paren{\xi_{\paren{T}}}$
+are sorted in decreasing order and $\tau_{\gamma, T} := \ceil{T\paren{1 - \gamma}}$.
+%
+%
+%
+Upon the dataset $D_2 := \brac{\xi_{i} : i \in I_2}$,
+one can define a split conformal prediction region as
+\begin{align*}
+    \hat{C}_{\gamma; \alpha}
+    := \brac{
+        \xi \in \brac{1, \ldots, K}^{T} : \hat{\pi}_{D_2} \paren{\xi} > \alpha
+    },
+\end{align*}
+where for every $\xi \in \brac{1, \ldots, K}^{T}$
+\begin{align*}
+    \hat{\pi}_{D_2} \paren{\xi}
+    := \frac{
+        1
+        + \sum_{i \in I_2}
+        \brac{\hat{t}_{D_1; \gamma} \paren{\xi_{i}} \leq \hat{t}_{D_1; \gamma} \paren{\xi}}
+    }{n_2+1}.
+\end{align*}
+%
+%
+%
+Let us now provide an explicit expression for $\hat{C}_{\gamma; \alpha}$,
+\begin{align}
+\label{eq.sim.cutoff}
+    \xi \in \hat{C}_{\gamma; \alpha}
+    &
+    \Longleftrightarrow
+    \frac{
+        1
+        + \sum_{i \in I_2}
+        \brac{\hat{t}_{D_1; \gamma} \paren{\xi_{i}} \leq \hat{t}_{D_1; \gamma} \paren{\xi}}
+    }{n_2+1} > \alpha
+    \notag
+    \\
+    &
+    \Longleftrightarrow
+    \frac{1}{n_2}
+    \sum_{i \in I_2}
+    \brac{\hat{t}_{D_1; \gamma} \paren{\xi_{i}} \leq \hat{t}_{D_1; \gamma} \paren{\xi}}
+    > \paren{1 + \frac{1}{n_2}}\alpha - \frac{1}{n_2}
+    \notag
+    \\
+    &
+    \Longleftrightarrow
+    \hat{t}_{D_1; \gamma} \paren{\xi}
+    \geq \hat{t}_{D_1; \gamma} \paren{\xi_{\paren{i_{n_2; \alpha}}}},
+\end{align}
+where $\hat{t}_{D_1; \gamma} \paren{\xi_{\paren{i_{n_2; \alpha}}}} \leq \ldots \leq \hat{t}_{D_1; \gamma} \paren{\xi_{\paren{i_{n_2; \alpha}}}}$
+are sorted in increasing order and $i_{n_2; \alpha} :=$ $\ceil{\paren{n_2 + 1}\alpha - 1}$.
+%
+%
+%
+Hence, the prediction band $\hat{B}_{\gamma; \alpha}$ defined as for every $\tau \in \brac{1, \ldots, T}$
+\begin{align*}
+    \hat{B}_{\gamma; \alpha; \tau}
+    &
+    := \brac{
+        k \in \brac{1, \ldots, K} : \hat{A}_{D_1; \tau} \paren{k} \geq \hat{t}_{D_1; \gamma} \paren{\xi_{\paren{i_{n_2; \alpha}}}}
+    }
+\end{align*}
+ensures the following
+%
+%
+%
+\begin{align*}
+    \mathbb{P}
+    \croch{
+        \frac{1}{T}
+        \sum_{\tau=1}^{T}
+        \mathbbm{1}
+        \brac{
+            \xi_{\tau} \in \hat{B}_{\gamma; \alpha; \tau}
+        }
+    }
+    &
+    =
+    \mathbb{P}
+    \croch{
+        \frac{1}{T}
+        \sum_{\tau=1}^{T}
+        \mathbbm{1}
+        \brac{
+            \hat{A}_{D_1; \tau}\paren{\xi_{\tau}} \geq \hat{t}_{D_1; \gamma} \paren{\xi_{\paren{i_{n_2; \alpha}}}}
+        }
+    }
+    \\
+    &
+    =
+    \mathbb{P}
+    \croch{
+        \hat{t}_{D_1; \gamma} \paren{\xi} \geq \hat{t}_{D_1; \gamma} \paren{\xi_{\paren{i_{n_2; \alpha}}}}
+    }
+    \\
+    &
+    =
+    \mathbb{P}
+    \croch{
+        \xi \in \hat{C}_{\gamma, \alpha}
+    } \geq 1 - \alpha.
+\end{align*}
+\end{proof}
+
+%
+%
+%
+
+\begin{corollary}[$\gamma$-simultaneous band, MD-Split]
+\label{cor.sim.md.split}
+Let $\xi_1, \ldots, \xi_{n}$ be i.i.d. copies of $\xi$.
+Let $I_1$ and $I_2$ be two index sets with cardinal $n_1$ and $n_2$ respectively
+such that $I_1 \sqcup I_2 = \brac{1, \ldots, n}$.
+
+%
+%
+%
+
+For any slack $\gamma \in (0,1)$, control level $\alpha \in \croch{0, 1}$,
+the prediction band $\hat{B}^{\mathrm{MD-split}}_{\gamma; \alpha}$ such that for every $\tau \in \brac{1, \ldots, T}$
+\begin{align}
+    \label{eq.sim.md.split}
+    \hat{B}^{\mathrm{MD-split}}_{\gamma; \alpha; \tau} :=
+    \brac{
+        k \in \brac{1, \ldots, K} :
+        \hat{p}_{D_1; \tau}\paren{k}
+        \geq
+        \hat{\ell}_{\gamma; \alpha}^{\mathrm{MD-Split}}
+    },
+\end{align}
+ensures control of $\gamma$-simultaneous coverage of $\xi$ at a control level $\alpha$,
+where empirical marginal probability density function $\hat{p}_{D_1; \tau}$ is defined in Equation (Eq.~\eqref{eq.epmf.D1}),
+and the threshold is  $\hat{\ell}_{\gamma; \alpha}^{\mathrm{MD-Split}}$ is defined in Equation (Eq.~\eqref{eq.threshold.sim.md.split}).
+\end{corollary}
+%
+%
+%
+\begin{proof}[Proof of Corollary \ref{cor.sim.md.split}]
+For every $\tau \in \brac{1, \ldots, K}$, define
+empirical marginal probability density function $\hat{p}_{D_1; \tau}$ built from
+the dataset $D_{1} := \brac{\xi_i : i \in I_1}$ as, for every $k \in \brac{1, \ldots, K}$
+\begin{align}
+\label{eq.epmf.D1}
+    \hat{p}_{D_1; \tau}\paren{k}
+    := \frac{1}{n_1} \sum_{i \in I_1} \mathbbm{1} \brac{\xi_{i; \tau} = k}.
+\end{align}
+%
+%
+%
+Applying Proposition \ref{prop.make.it.sim} by choosing for every $\tau \in \brac{1, \ldots, T}$,
+and every $k \in \brac{1, \ldots, K}$, $\hat{A}_{D_1; \tau} \paren{k} := \hat{p}_{D_1; \tau} \paren{k}$,
+the prediction band $\hat{B}^{\mathrm{MD-split}}_{\gamma; \alpha}$ defined as,
+for every $\tau \in \brac{1, \ldots, T}$
+\begin{align*}
+    \hat{B}^{\mathrm{MD-split}}_{\gamma; \alpha; \tau}
+    &
+    :=
+    \brac{
+        k \in \brac{1, \ldots, K} :
+        \hat{A}_{D_1; \tau} \paren{k}
+        \geq
+        \hat{t}_{D_1; \gamma} \paren{\xi_{\paren{i_{n_2; \alpha}}}}
+    }
+    \\
+    &
+    = \brac{
+        k \in \brac{1, \ldots, K} :
+        \hat{p}_{D_1; \tau} \paren{k}
+        \geq
+        \hat{\ell}_{\gamma; \alpha}^{\mathrm{MD-Split}}
+    },
+\end{align*}
+ensures control of $\gamma$-simultaneous coverage of $\xi$ at a control level $\alpha$,
+where the threshold $\hat{\ell}_{\gamma; \alpha}^{\mathrm{MD-Split}}$ is defined as
+\begin{align}
+    \label{eq.threshold.sim.md.split}
+    \hat{\ell}_{\gamma; \alpha}^{\mathrm{MD-Split}}
+    := \hat{t}_{D_1; \gamma} \paren{\xi_{\paren{i_{n_2; \alpha}}}}.
+\end{align}
+\end{proof}
+
+%
+%
+%
+
+\begin{corollary}[$\gamma$-simultaneous band, MHPD-Split]
+\label{cor.sim.mhpd.split}
+Let $\xi_1, \ldots, \xi_{n}$ be i.i.d. copies of $\xi$.
+Let $I_1$ and $I_2$ be two index sets with cardinal $n_1$ and $n_2$ respectively
+such that $I_1 \sqcup I_2 = \brac{1, \ldots, n}$.
+
+%
+%
+%
+
+For any slack $\gamma \in (0,1)$, control level $\alpha \in \croch{0, 1}$,
+the prediction band $\hat{B}^{\mathrm{MHPD-split}}_{\gamma; \alpha}$ such that for every $\tau \in \brac{1, \ldots, T}$
+\begin{align}
+    \label{eq.sim.mhpd.split}
+    \hat{B}_{\gamma; \alpha; \tau}^{\mathrm{MHPD-split}} :=
+    \brac{
+        k \in \brac{1, \ldots, K} :
+        \hat{p}_{D_1; \tau} \paren{k} > \hat{\ell}_{\gamma; \alpha; \tau}^{\mathrm{MHPD-split}}
+    },
+\end{align}
+ensures $\gamma$-simultaneous coverage of $\xi$ at a control level $\alpha$,
+where empirical marginal probability density function $\hat{p}_{D_1; \tau}$ is defined in Equation (Eq.~\eqref{eq.epmf.D1}),
+and the threshold $\hat{\ell}_{\gamma; \alpha; \tau}^{\mathrm{MHPD-split}}$ is defined in Equation (Eq.~\eqref{eq.threshold.sim.hpd.split}).
+\end{corollary}
+%
+%
+%
+\begin{proof}[Proof of Corollary \ref{cor.sim.mhpd.split}]
+For every $\tau \in \brac{1, \ldots, K}$, and every $k \in \brac{1, \ldots, K}$
+define the rank $\hat{R}_{D_1; \tau}\paren{k}$ of $k$ at the instant $\tau$
+built from the dataset $D_1 := \brac{\xi_i : i \in I_1}$ as
+\begin{align}
+\label{eq.rank.D1}
+    \hat{R}_{D_1; \tau}\paren{k}
+    :=
+    \sum_{l = 1}^{K}
+    \hat{p}_{D_1; \tau} \paren{l}
+    \mathbbm{1} \brac{
+        \hat{p}_{D_1; \tau} \paren{l}
+        \leq \hat{p}_{D_1; \tau} \paren{k}
+    }.
+\end{align}
+%
+%
+%
+Applying Proposition \ref{prop.make.it.sim} by choosing for every $\tau \in \brac{1, \ldots, T}$,
+and every $k \in \brac{1, \ldots, K}$, $\hat{A}_{D_1; \tau} \paren{k} := \hat{R}_{D_1; \tau} \paren{k}$,
+the prediction band $\hat{B}^{\mathrm{MD-split}}_{\gamma; \alpha}$ defined as,
+for every $\tau \in \brac{1, \ldots, T}$
+\begin{align*}
+    \hat{B}_{\gamma; \alpha; \tau}^{\mathrm{MHPD-split}}
+    &
+    :=
+    \brac{
+        k \in \brac{1, \ldots, K} :
+        \hat{A}_{D_1; \tau} \paren{k}
+        \geq
+        \hat{t}_{D_1; \gamma} \paren{\xi_{\paren{i_{n_2; \alpha}}}}
+    }
+    \\
+    &
+    = \brac{
+        k \in \brac{1, \ldots, K} :
+        \hat{R}_{D_1; \tau} \paren{k}
+        \geq
+        \hat{t}_{D_1; \gamma} \paren{\xi_{\paren{i_{n_2; \alpha}}}}
+    }
+    \\
+    &
+    =
+    \brac{
+        k \in \brac{1, \ldots, K} :
+        \hat{p}_{D_1; \tau}\paren{k} > \hat{\ell}_{\gamma; \alpha; \tau}^{\mathrm{MHPD-split}}
+    },
+\end{align*}
+ensures control of $\gamma$-simultaneous coverage of $\xi$ at a control level $\alpha$,
+where the cut-off $\hat{\ell}_{\gamma; \alpha; \tau}^{\mathrm{MHPD-split}}$ is defined as
+\begin{align}
+\label{eq.threshold.sim.hpd.split}
+    \hat{\ell}_{\gamma; \alpha; \tau}^{\mathrm{MHPD-split}}
+    := \sup
+    \brac{
+        \ell \in \croch{0, 1}
+        : \sum_{l = 1}^{K}
+        \hat{p}_{D_1; \tau} \paren{l}
+        \mathbbm{1} \brac{
+            \hat{p}_{D_1; \tau} \paren{l}
+            > \ell
+        } 
+        > 1 - \hat{t}_{D_1; \gamma}^{\mathrm{MHPD-split}} \paren{\xi_{\paren{i_{n_2; \alpha}}}}
+    },
+\end{align}   
+\end{proof}
+
+
+\begin{corollary}[$\gamma$-simultaneous band, MDist-Split]
+\label{cor.sim.mdist.split}
+Let $\xi_1, \ldots, \xi_n$ be $n$ independent copies of $\xi$.
+Let $I_1$ and $I_2$ be two index sets with cardinal $n_1$ and $n_2$ respectively such that
+$I_1 \sqcup I_2 = \brac{1, \ldots, n}$.
+
+
+For any slack $\gamma \in (0,1)$, any control level $\alpha \in \croch{0, 1}$,
+the band $\hat{B}^{\mathrm{MDist-split}}_{\gamma; \alpha}$ defined as,
+for every $\tau \in \brac{1, \ldots, T}$
+\begin{align}
+    \label{eq.sim.mdist.split}
+    \hat{B}_{\gamma; \alpha; \tau}^{\mathrm{MDist-split}} :=
+    \brac{
+        k \in \brac{1, \ldots, K} :
+        \hat{Q}_{D_1, \tau}^{\mathrm{lo}}
+        \paren{
+            \hat{t}_{\gamma; \alpha}^{\mathrm{MDist-split}}
+        }
+        \leq k
+        \leq \hat{Q}_{D_1, \tau}^{\mathrm{lo}}
+        \paren{
+            1 - \hat{t}_{\gamma; \alpha}^{\mathrm{MDist-split}}
+        }
+    },
+\end{align}
+ensures $\gamma$-simultaneous coverage of $\xi$ at a control level $\alpha$,
+where the level $\hat{t}_{\gamma; \alpha}^{\mathrm{MDist-split}}$ is defined in Equation (Eq.~\eqref{eq.threshold.sim.mdist.split}).
+\end{corollary}
+%
+%
+%
+\begin{proof}[Proof of Corollary \ref{cor.sim.mdist.split}]
+Applying Proposition \ref{prop.make.it.sim},
+for every $\tau \in \brac{1, \ldots, K}$, and $k \in \brac{1, \ldots, K}$
+\begin{align}
+\label{eq.sim.ecdf}
+    \hat{A}_{D_1; \tau}\paren{k}
+    := \min\paren{\hat{F}_{D_1; \tau} \paren{k}, 1 - \hat{F}_{D_1; \tau} \paren{k}},
+\end{align}
+%
+%
+%
+the prediction band $\hat{B}^{\mathrm{MDist-split}}_{\gamma; \alpha}$ defined as,
+for every $\tau \in \brac{1, \ldots, T}$
+\begin{align*}
+    \hat{B}_{\gamma; \alpha; \tau}^{\mathrm{MHPD-split}}
+    &
+    :=
+    \brac{
+        k \in \brac{1, \ldots, K} :
+        \hat{A}_{D_1; \tau} \paren{k}
+        \geq
+        \hat{t}_{D_1; \gamma} \paren{\xi_{\paren{i_{n_2; \alpha}}}}
+    }
+    \\
+    &
+    = \brac{
+        k \in \brac{1, \ldots, K} :
+        \min \paren{
+            \hat{F}_{D_1; \tau} \paren{k},
+            1 - \hat{F}_{D_1; \tau} \paren{k}   
+        }
+        \geq \hat{t}_{\gamma; \alpha}^{\mathrm{MDist-split}}
+    }
+    \\
+    &
+    =
+    \brac{
+        k \in \brac{1, \ldots, K} :
+        \hat{Q}_{D_1, \tau}^{\mathrm{lo}}
+        \paren{
+            \hat{t}_{\gamma; \alpha}^{\mathrm{MDist-split}}
+        }
+        \leq k
+        \leq \hat{Q}_{D_1, \tau}^{\mathrm{lo}}
+        \paren{
+            1 - \hat{t}_{\gamma; \alpha}^{\mathrm{MDist-split}}
+        }
+    },
+\end{align*}
+ensures control of $\gamma$-simultaneous coverage of $\xi$ at a control level $\alpha$,
+where the level $\hat{t}_{\gamma; \alpha}^{\mathrm{MDist-split}}$ is defined as
+\begin{align}
+    \label{eq.threshold.sim.mdist.split}
+    \hat{t}_{\gamma; \alpha}^{\mathrm{MDist-split}} :=
+    \hat{t}_{D_1; \gamma} \paren{\xi_{\paren{i_{n_2; \alpha}}}}.
+\end{align}
+\end{proof}
+
+
+\begin{proposition}[Make it high probability.]
+Let $\xi_1, \ldots, \xi_n$ be $n$ independent copies of $\xi$.
+Let $I_1$ and $I_2$ be two index sets with cardinal $n_1$ and $n_2$ respectively such that
+$I_1 \sqcup I_2 = \brac{1, \ldots, n}$.
+
+For any risk level $\delta$ and a control level $\delta$,
+\begin{align*}
+    \mathbb{P}
+    \croch{
+        \mathbb{P}
+        \croch{
+            \xi \in \hat{C}_{a_{n_2; \alpha; \delta}} \mid D_2
+        } \geq 1 - \alpha
+    } \geq 1 - \delta,
+\end{align*}
+where the level $a_{n_2; \alpha; \delta}$ is given by
+\begin{align*}
+    a_{n_2; \alpha; \delta}
+\end{align*}
+
+\end{proposition}
+\begin{proof}
+\begin{align*}
+    \mathbb{P}
+    \croch{
+        \mathbb{P}
+        \croch{
+            \mid D_2
+        } \geq 1 - \alpha
+    } \geq 1 - \delta. 
+\end{align*}
+\end{proof}
+
+\end{document}
+
+

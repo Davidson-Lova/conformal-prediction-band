@@ -1,0 +1,116 @@
+\usepackage[english]{babel}
+
+% Set page size and margins
+% Replace `letterpaper' with `a4paper' for UK/EU standard size
+\usepackage[letterpaper,top=2cm,bottom=2cm,left=3cm,right=3cm,marginparwidth=1.75cm]{geometry}
+\usepackage[font=small,skip=0pt]{caption}
+
+% Useful packages
+%%%%%%%%%%%%%%%%%%%
+% These are the ones that i added myself.
+\usepackage[colorlinks=true, urlcolor=blue, linkcolor=red]{hyperref}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{xcolor}
+\usepackage{authblk}
+\usepackage{bbm}
+\usepackage[normalem]{ulem}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amssymb}
+\usepackage{caption} 
+\usepackage{subcaption}
+\usepackage{csquotes}
+\usepackage[citestyle=authoryear,natbib=true,backend=bibtex]{biblatex}
+\usepackage{cleveref}
+% \addbibresource{references.bib}
+%\RequirePackage[colorlinks=true,citecolor=blue,linkcolor=blue,urlcolor=green]{hyperref}
+
+%--------------------
+
+\newcommand{\todo}[1]{{{\bf \color{red}{[TODO #1]}}}}
+\newcommand{\atodo}[1]{{{\bf \color{orange}{[TODO #1]}}}}
+\newcommand{\add}[1]{{{\it \color{red}{Add: #1}}}}
+\newcommand{\remove}[1]{{\color{red}{\sout{#1}}}}
+
+\newcommand{\spec}{{{\bf \color{red}{(Specification) }}}}
+\newcommand{\defin}{{{\bf \color{red}{(Definition) }}}}
+\newcommand{\asm}{{{\bf \color{red}{(Assumption) }}}}
+\newcommand{\prop}{{{\bf \color{red}{(Proposition) }}}}
+\newcommand{\deriv}{{{\bf \color{red}{(Derivation) }}}}
+\newcommand{\note}{{{\bf \color{red}{(Notation) }}}}
+
+\newcommand{\relu}[1]{\mathrm{ReLU}\left( #1 \right)}
+\newcommand{\leb}[1]{\mathcal{L}\paren{ #1 }}
+
+\newcommand{\up}{\mathrm{up}}
+\newcommand{\lo}{\mathrm{lo}}
+\newcommand{\midd}{\mathrm{mid}}
+
+\newcommand{\fcpr}{\hat{C}_{\alpha}^{\mathrm{full}}(X_{n+1})}
+\newcommand{\scpr}{\hat{C}_{\alpha}^{\mathrm{split}}(X_{n+1})}
+\newcommand{\ccpr}[1]{\hat{C}_{\alpha}^{\mathrm{cv}\paren{#1}}(X_{n+1})}
+\newcommand{\ufcpr}[1]{\tilde{C}_{\alpha}^{\up #1}(X_{n+1})}
+\newcommand{\lfcpr}[1]{\tilde{C}_{\alpha}^{\lo #1}(X_{n+1})}
+
+\newcommand{\fcpv}[1]{\hat{\pi}_{D}^{\mathrm{full}} \paren{X_{n+1}, #1}}
+\newcommand{\scpv}[1]{\hat{\pi}_{D}^{\mathrm{split}} \paren{X_{n+1}, #1}}
+\newcommand{\ccpv}[2]{\hat{\pi}_{D}^{\mathrm{cv}\paren{#1}} \paren{X_{n+1}, #2}}
+\newcommand{\ufcpv}[2]{\tilde{\pi}_{D}^{\up #1} \paren{X_{n+1}, #2}}
+\newcommand{\lfcpv}[2]{\tilde{\pi}_{D}^{\lo #1} \paren{X_{n+1}, #2}}
+
+
+\newcommand{\pred}[2]{\hat{f}_{#1 D^{#2}}}
+\newcommand{\apred}[3]{\tilde{f}_{#1 D^{#2}}^{#3}}
+\newcommand{\ifunc}[1]{\mathbf{I}_{\hat{f}}\paren{X_{n+1}, #1}}
+\newcommand{\vifunc}[1]{I_{\hat{f}}\paren{X_{n+1}, #1}}
+\newcommand{\wpred}[3]{\hat{f}_{#1}\paren{#2; #3}}
+
+\newcommand{\wer}[3]{\hat{\mathbf{R}}_{#1}\paren{#2; #3}}
+\newcommand{\vwer}[3]{\hat{R}_{#1}\paren{#2; #3}}
+
+\newcommand{\thicc}[1]{\mathrm{THK}^{#1}_{\alpha}\paren{X_{n+1}}}
+\newcommand{\gap}[1]{\mathrm{Gap}\hat{C}^{#1}_{\alpha}\paren{X_{n+1}}}
+\newcommand{\gappv}[2]{\mathrm{Gap}\hat{\pi}^{#1}_{D}\paren{X_{n+1}, #2}}
+
+\newcommand{\mean}[1]{\overline{#1}}
+\newcommand{\var}[1]{\widehat{\mathrm{var}}\left( #1 \right)}
+\newcommand{\std}[1]{\hat{\sigma}\left( #1 \right)}
+\newcommand{\cov}[1]{\widehat{\mathrm{cov}}\left( #1 \right)}
+
+
+\newcommand{\Dtwo}{\mathcal{D}_2}
+\newcommand{\DDtwo}{\mathcal{D}^2_2}
+\newcommand{\dtwo}{\partial_2}
+\newcommand{\ddtwo}{\partial_2^2}
+\newcommand{\dddtwo}{\partial_2^3}
+\newcommand{\paren}[1]{\left( #1 \right)}
+\newcommand{\croch}[1]{\left[\, #1 \,\right]}
+\newcommand{\abss}[1]{\left\lvert #1 \right\rvert}
+\newcommand{\norm}[1]{\left\lVert #1 \right\rVert}
+\newcommand{\normh}[1]{\left\lVert #1 \right\rVert_{\mathcal{H}}}
+\newcommand{\normop}[1]{\left\lVert #1 \right\rVert_{\mathrm{op}}}
+\newcommand{\doth}[2]{\left\langle #1, #2 \right\rangle_{\mathcal{H}}}
+\newcommand{\ceil}[1]{\left\lceil #1 \right\rceil}
+\newcommand{\floor}[1]{\left\lfloor #1 \right\rfloor}
+\newcommand{\brac}[1]{\left\{ #1 \right\}}
+
+\newcommand{\uu}{\underline{u}}
+\newcommand{\uv}{\underline{v}}
+\newcommand{\uw}{\underline{w}}
+\newcommand{\ua}{\underline{a}}
+\newcommand{\ub}{\underline{b}}
+\newcommand{\uc}{\underline{c}}
+
+
+\DeclareMathOperator*{\argmax}{arg\,max}
+\DeclareMathOperator*{\argmin}{arg\,min}
+
+%%%%%%%%%
+\newtheorem{assumption}{Assumption}
+\newtheorem{proposition}{Proposition}
+\newtheorem{definition}{Definition}
+\newtheorem{condition}{Condition}
+\newtheorem{corollary}{Corollary}
+
+\allowdisplaybreaks
